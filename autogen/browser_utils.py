@@ -455,10 +455,9 @@ class ContentCollector():
         
         self.llm_config      = kwargs['llm_config']
 
-        import tiktoken
         from guidance import models
-        self.small_lm = models.OpenAIChat(model="small", base_url="http://localhost:5001/v1", api_key="not-needed", tokenizer=tiktoken.get_encoding('cl100k_base'), temperature=0.01)
-
+        self.small_lm = models.OpenAIChat(**self.llm_config)
+        
 
     # Main entry point
     def ingest_link(self, recipient, messages, sender, config):
@@ -486,9 +485,6 @@ class ContentCollector():
 
     def fetch_content(self, link):
 
-        # if not self.validate_link(link):
-        #     return "Error", "Invalid link. Please submit a valid URL."
-        
         # Parse the link        
         parsed_url = urlparse(link)
 
